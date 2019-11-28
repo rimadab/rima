@@ -1,0 +1,120 @@
+#include "gerer_agence.h"
+#include "agence.h"
+#include "ui_gerer_agence.h"
+#include <QMessageBox>
+#include <QString>
+
+
+gerer_agence::gerer_agence(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::gerer_agence)
+{
+    ui->setupUi(this);
+
+  ui->table1->setModel(tmpagence.afficher());
+
+}
+
+gerer_agence::~gerer_agence()
+{
+    delete ui;
+}
+
+void gerer_agence::on_pushButton_clicked()
+{
+    bool test;
+    QString NOM =ui->lineEdit->text();
+    QString LOCATION =ui->lineEdit_2->text().toInt();
+    agence c(NOM,LOCATION);
+    test=c.ajouter();
+    if(test)
+    {ui->table1->setModel(tmpagence.afficher());//refresh
+    QMessageBox::information(nullptr, QObject::tr("Ajouter une agence"),
+                      QObject::tr("agence ajouté.\n"
+                                  "Click Cancel to exit."), QMessageBox::Cancel);
+
+    }
+      else
+          {QMessageBox::critical(nullptr, QObject::tr("Ajouter une agence"),
+                      QObject::tr("Erreur !.\n"
+                                  "Click Cancel to exit."), QMessageBox::Cancel);}
+
+
+    }
+
+
+
+
+void gerer_agence::on_pushButton_4_clicked()
+{
+    QString NOM = ui->lineEdit->text();
+    bool test=tmpagence.supprimer(NOM);
+    if(test)
+    {ui->table1->setModel(tmpagence.afficher());//refresh
+        QMessageBox::information(nullptr, QObject::tr("Supprimer une agence"),
+                    QObject::tr("agence supprimé.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("Supprimer une agence"),
+                    QObject::tr("Erreur !.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+
+
+    }
+
+
+void gerer_agence::on_pushButton_2_clicked()
+{
+
+        QString NOM=ui->lineEdit->text();
+         QString LOCATION=ui->lineEdit_2->text();
+          agence c(NOM,LOCATION);
+        bool test2= c.modifier();
+        if(test2)
+        {
+            ui->table1->setModel(tmpagence.afficher());//refresh
+
+                 QMessageBox::information(nullptr, QObject::tr("modifier une agence"),
+                             QObject::tr("agence modifié.\n"
+                                         "Click Cancel to exit."), QMessageBox::Cancel);
+
+             }
+             else
+                 QMessageBox::critical(nullptr, QObject::tr("modifier une agence"),
+                             QObject::tr("Erreur !.\n"
+                                         "Click Cancel to exit."), QMessageBox::Cancel);
+}
+void gerer_agence::on_pushButton_clicked()
+{
+
+    QString NOM=ui->noom->text();
+                    ui->noom->clear();
+                    QSqlQueryModel *model;
+                    agence *c=new agence();
+
+                          QString nom,location;
+
+
+
+
+                            QSqlQuery  *q  = new QSqlQuery();
+                            q->prepare("select * from agence where (NOM=:NOM)");
+                            q->addBindValue(NOM);
+                            if(q->exec())
+                            {
+                                while(q->next())
+                                {
+
+
+                                    NOM=q->value(0).toString();
+                                    location=q->value(1).toString();
+
+
+                                }
+                            }
+
+                            ui->lineEdit->setText(NOM);
+                            ui->lineEdit_2->setText(LOCATION);
+}
