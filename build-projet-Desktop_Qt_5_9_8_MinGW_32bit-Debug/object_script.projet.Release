@@ -1,0 +1,13 @@
+INPUT(
+./release\conge.o
+./release\connexion.o
+./release\employer.o
+./release\main.o
+./release\mainwindow.o
+./release\notification.o
+./release\qcustomplot.o
+./release\smtp.o
+./release\moc_mainwindow.o
+./release\moc_qcustomplot.o
+./release\moc_smtp.o
+);

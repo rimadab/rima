@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>interface/78205697_806966256413167_3984047019940380672_n.jpg</file>
+        <file>interface/77087254_562446980994934_3284096831071453184_n.jpg</file>
+        <file>interface/79303081_559980864545992_7566787920833544192_n (1).jpg</file>
+    </qresource>
+</RCC>

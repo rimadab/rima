@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "compte.h"
+#include "connection.h"
+#include "menu.h"
 namespace Ui {
 class MainWindow;
 }
@@ -16,13 +17,14 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
 
-    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
-    compte tmpcompte;
+    QString username;
+    QString password;
 };
 
 #endif // MAINWINDOW_H

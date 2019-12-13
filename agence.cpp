@@ -1,63 +1,75 @@
 #include "agence.h"
-#include <QDebug>
-agence::agence()
+#include "ui_agence.h"
+#include "notification.h"
+#include "comptes.h"
+
+
+Agence::Agence(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Agence)
 {
-    NOM="";
-    LOCATION="";
+    ui->setupUi(this);
+    ui->tableView_agence->setModel(a.afficher_agences());
+    indice=-1;
+
+
 }
- agence::agence(QString NOM,QString LOCATION)
- {
 
-     this->NOM=NOM;
-     this->LOCATION=LOCATION;
- }
- bool agence::ajouter()
- {
- QSqlQuery query;
- query.prepare("INSERT INTO AGENCE (NOM, LOCATION) "
-                     " VALUES (:NOM, :LOCATION)");
-
- query.bindValue(":NOM", NOM);
- query.bindValue(":LOCATION", LOCATION);
-
- return    query.exec();
- }
-
- QSqlQueryModel * agence::afficher()
- {QSqlQueryModel * model= new QSqlQueryModel();
-
- model->setQuery("select * from AGENCE");
- model->setHeaderData(0, Qt::Horizontal, QObject::tr("NOM"));
- model->setHeaderData(1, Qt::Horizontal, QObject::tr("LOCATION"));
-
-
-     return model;
- }
- bool agence::supprimer(QString nom)
- {
-
- QSqlQuery query;
- query.prepare("Delete from AGENCE where NOM = :NOM ");
- query.bindValue(":NOM", nom);
- return    query.exec();
- }
-bool agence::modifier()
+Agence::~Agence()
 {
-    QSqlQuery query;
-    query.prepare("UPDATE  AGENCE set   NOM=:NOM , LOCATION=:LOCATION");
-
-    query.bindValue(":NOM",NOM);
-    query.bindValue(":LOCATION",LOCATION);
-
-    return  query.exec();
+    delete ui;
 }
-QSqlQueryModel *agence::rechercher()
+
+void Agence::on_pushButton_ajouter_clicked()
 {
-    QSqlQueryModel *model=new QSqlQueryModel();
-       QSqlQuery q;
-       q.prepare("select * from AGENCE where (NOM=:NOM) ");
-       q.addBindValue(getnom());
-       q.exec();
-     model->setQuery(q);
-     return(model);
+    notification n;
+    a.setLocation(ui->location->text());
+
+
+
+    if(a.verif_champs_vide(ui->location->text())==false)
+       {
+           QMessageBox::information(this,tr("error"),tr("les champ ne doit pas etre vide"));
+       }
+
+       else if(a.verif_chaine(ui->location->text())==false)
+       {
+           QMessageBox::information(this,tr("error"),tr("les champ doit etre alphabetique"));
+       }
+       else
+       {
+    a.ajouter_agences(a);
+    n.notification_ajout_agence(ui->location->text());
+
+     this->hide();
+    Agence agenceob;
+    agenceob.setModal(true);
+    agenceob.exec();
+    }
+
+
+}
+
+void Agence::on_tableView_agence_clicked(const QModelIndex &index)
+{
+    indice=ui->tableView_agence->model()->index(index.row(),0).data().toInt();
+
+}
+
+void Agence::on_pushButton_2_clicked()
+{
+    a.selectionner(indice);
+    a.supprimer_agences(indice);
+    this->hide();
+    Agence agenceob;
+    agenceob.setModal(true);
+    agenceob.exec();
+}
+
+void Agence::on_retour_clicked()
+{
+     this->hide();
+    comptes agenceob;
+    agenceob.setModal(true);
+    agenceob.exec();
 }

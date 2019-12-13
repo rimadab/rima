@@ -1,0 +1,13 @@
+INPUT(
+./debug\conge.o
+./debug\connexion.o
+./debug\employer.o
+./debug\main.o
+./debug\mainwindow.o
+./debug\notification.o
+./debug\qcustomplot.o
+./debug\smtp.o
+./debug\moc_mainwindow.o
+./debug\moc_qcustomplot.o
+./debug\moc_smtp.o
+);

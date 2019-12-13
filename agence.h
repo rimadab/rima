@@ -1,28 +1,46 @@
 #ifndef AGENCE_H
 #define AGENCE_H
-#include <QString>
-#include <QSqlQuery>
-#include <QSqlQueryModel>
 
-class  agence
+#include <QDialog>
+#include"agence_classe.h"
+#include <QTimer>
+#include <QDateTime>
+#include<QString>
+#include<QSqlQuery>
+#include<QMessageBox>
+#include <QStringList>
+#include <QtSql>
+#include <QDebug>
+#include <QSqlError>
+#include<QSqlQueryModel>
+
+
+namespace Ui {
+class Agence;
+}
+
+class Agence : public QDialog
 {
+    Q_OBJECT
+
 public:
-    agence();
-    agence(QString,QString);
-    QSqlQueryModel *rechercher();
-    bool ajouter();
-    QSqlQueryModel * afficher();
-    bool supprimer(QString);
-    bool modifier();
-    QString getnom()
-    {return  NOM ;
-    }
-    void setnom (QString noom)
-    {NOM=noom;}
+    explicit Agence(QWidget *parent = nullptr);
+    ~Agence();
+
+private slots:
+    void on_pushButton_ajouter_clicked();
+
+    void on_tableView_agence_clicked(const QModelIndex &index);
+
+    void on_pushButton_2_clicked();
+
+    void on_retour_clicked();
+
 private:
-   QString NOM;
-   QString LOCATION;
+    Ui::Agence *ui;
+    agence_classe a;
+    int indice;
 
 };
 
-#endif // agence_H
+#endif // AGENCE_H
